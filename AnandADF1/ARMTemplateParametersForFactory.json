@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "AnandADF1"
+		},
+		"AnandSqlDB_LinkedService_connectionString": {
+			"value": ""
+		},
+		"anandstorage1_LinkService_accountKey": {
+			"value": ""
+		},
+		"anandstorage1_LinkService_properties_typeProperties_url": {
+			"value": "https://anandstorage1.dfs.core.windows.net/"
+		},
+		"EventTrigger_properties_typeProperties_scope": {
+			"value": "/subscriptions/14e3fd66-de75-444d-8928-505769c0238f/resourceGroups/Assignments/providers/Microsoft.Storage/storageAccounts/anandstorage1"
+		}
+	}
+}
