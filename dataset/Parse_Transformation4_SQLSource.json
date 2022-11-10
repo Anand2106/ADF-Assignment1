@@ -1,0 +1,35 @@
+{
+	"name": "Parse_Transformation4_SQLSource",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AnandSqlDB_LinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "stuId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "stuName",
+				"type": "varchar"
+			},
+			{
+				"name": "subjects",
+				"type": "varchar"
+			},
+			{
+				"name": "location",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "studentSubject"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

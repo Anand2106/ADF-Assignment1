@@ -1,0 +1,19 @@
+{
+	"name": "EventTrigger_Source",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "anandstorage1_LinkService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Employee.txt",
+				"fileSystem": "triggers"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,32 @@
+{
+	"name": "LoadDataDestination",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AnandSqlDB_LinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "stuId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "stuName",
+				"type": "varchar"
+			},
+			{
+				"name": "fees",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "student"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

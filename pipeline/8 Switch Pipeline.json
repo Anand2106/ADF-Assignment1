@@ -1,0 +1,117 @@
+{
+	"name": "8 Switch Pipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "Switch1",
+				"type": "Switch",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"on": {
+						"value": "@pipeline().parameters.MyChoice",
+						"type": "Expression"
+					},
+					"cases": [
+						{
+							"value": "delete",
+							"activities": [
+								{
+									"name": "Delete1",
+									"type": "Delete",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"dataset": {
+											"referenceName": "SwitchDeletingDestination",
+											"type": "DatasetReference"
+										},
+										"enableLogging": false,
+										"storeSettings": {
+											"type": "AzureBlobFSReadSettings",
+											"recursive": true,
+											"enablePartitionDiscovery": false
+										}
+									}
+								}
+							]
+						},
+						{
+							"value": "set",
+							"activities": [
+								{
+									"name": "Set variable1",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "Status",
+										"value": "complete"
+									}
+								},
+								{
+									"name": "Append variable2",
+									"type": "AppendVariable",
+									"dependsOn": [
+										{
+											"activity": "Set variable1",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "Status Log",
+										"value": {
+											"value": "@variables('Status')",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					],
+					"defaultActivities": [
+						{
+							"name": "Wait1",
+							"type": "Wait",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"waitTimeInSeconds": 5
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"MyChoice": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"Status": {
+				"type": "String",
+				"defaultValue": "Process"
+			},
+			"Status Log": {
+				"type": "Array",
+				"defaultValue": [
+					"Process"
+				]
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-11-09T10:21:15Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

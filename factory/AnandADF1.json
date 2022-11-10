@@ -1,0 +1,9 @@
+{
+	"name": "AnandADF1",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "1e48e9db-30f7-4baa-a1f1-b3706eb6e544",
+		"tenantId": "d98e16c4-4ec4-4b35-ad39-b3d3da3e4972"
+	}
+}

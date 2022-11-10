@@ -1,0 +1,36 @@
+{
+	"name": "6 FailedMailSending",
+	"properties": {
+		"activities": [
+			{
+				"name": "Web1",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://prod-19.centralindia.logic.azure.com:443/workflows/962756bf7f1946828d03231524bcabc2/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=6rra35IWdi2AiXxe24PM_C-LRzSQFEsvX0YE-cFHw84",
+					"method": "POST",
+					"body": {
+						"value": "{\n    \"To\":\"Anand.Pandian@elait.com\",\n    \"Subject\":\"Azure ADF Pipeline Failed Message\",\n    \"Body\":\"Hi Anand! Your Validation Pipeline Has Failed So Please check It\"\n}",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"variables": {
+			"First": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-11-09T10:15:30Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

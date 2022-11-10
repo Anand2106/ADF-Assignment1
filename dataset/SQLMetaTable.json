@@ -1,0 +1,34 @@
+{
+	"name": "SQLMetaTable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AnandSqlDB_LinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "sourceFolder",
+				"type": "varchar"
+			},
+			{
+				"name": "sourceFile",
+				"type": "varchar"
+			},
+			{
+				"name": "destSchema",
+				"type": "varchar"
+			},
+			{
+				"name": "desttable",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "metadata"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

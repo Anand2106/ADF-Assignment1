@@ -1,0 +1,45 @@
+{
+	"name": "Flatten_Transformation5_Source",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "anandstorage1_LinkService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Sample.json",
+				"folderPath": "Source",
+				"fileSystem": "transformation"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"skills": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				},
+				"contact": {
+					"type": "object",
+					"properties": {
+						"mobile": {
+							"type": "string"
+						},
+						"landline": {
+							"type": "string"
+						}
+					}
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

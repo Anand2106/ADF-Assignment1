@@ -1,0 +1,79 @@
+{
+	"name": "Transfomation1",
+	"properties": {
+		"description": "In this Transformation to implementing Rank, Conditional split, derived column, union, sort",
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Transformation1_Source",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Transformation1_Destination",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "split1"
+				},
+				{
+					"name": "rank1"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "derivedColumn2"
+				},
+				{
+					"name": "union1"
+				},
+				{
+					"name": "sort1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          cusId as short,",
+				"          cusName as string,",
+				"          gender as string,",
+				"          netpurchaseAmount as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"rank1 split(netpurchaseAmount>25000,",
+				"     disjoint: false) ~> split1@(HighestPurchase, LowestPurchase)",
+				"source1 rank(desc(netpurchaseAmount, true),",
+				"     output(PurchasedRank as long)) ~> rank1",
+				"split1@HighestPurchase derive({Special Points} = round((netpurchaseAmount/100)*6)) ~> derivedColumn1",
+				"split1@LowestPurchase derive({Special Points} = round((netpurchaseAmount/100)*4)) ~> derivedColumn2",
+				"derivedColumn1, derivedColumn2 union(byName: true)~> union1",
+				"union1 sort(asc(cusId, true)) ~> sort1",
+				"sort1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          cusId as string,",
+				"          cusName as string,",
+				"          gender as string,",
+				"          netpurchaseAmount as string",
+				"     ),",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}

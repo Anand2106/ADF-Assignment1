@@ -1,0 +1,25 @@
+{
+	"name": "EventTrigger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "14 Event Trigger",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/triggers/blobs/",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/14e3fd66-de75-444d-8928-505769c0238f/resourceGroups/Assignments/providers/Microsoft.Storage/storageAccounts/anandstorage1",
+			"events": [
+				"Microsoft.Storage.BlobCreated",
+				"Microsoft.Storage.BlobDeleted"
+			]
+		}
+	}
+}

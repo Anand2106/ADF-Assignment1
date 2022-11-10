@@ -1,0 +1,24 @@
+{
+	"name": "ScheduleTrigger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "13 AlertMail and ScheduleTrigger",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 1,
+				"startTime": "2022-11-09T16:10:00",
+				"timeZone": "India Standard Time"
+			}
+		}
+	}
+}

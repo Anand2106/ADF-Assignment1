@@ -1,0 +1,37 @@
+{
+	"name": "UpsertDestination",
+	"properties": {
+		"description": "This is destination Datasets for Alter Table Transformation",
+		"linkedServiceName": {
+			"referenceName": "AnandSqlDB_LinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "empId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "empName",
+				"type": "varchar"
+			},
+			{
+				"name": "gender",
+				"type": "varchar"
+			},
+			{
+				"name": "deptid",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "employee"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,73 @@
+{
+	"name": "Parse_Transformation4",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Parse_Transformation4_SQLSource",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Parse_Transformation4_CSVDestination",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "parse1"
+				},
+				{
+					"name": "parse2"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          stuId as integer,",
+				"          stuName as string,",
+				"          subjects as string,",
+				"          location as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source1",
+				"source1 parse(subjectsCol = subjects ? (Subject1 as string,",
+				"          Subject2 as string),",
+				"     format: 'delimited',",
+				"     columnNamesAsHeader: false,",
+				"     columnDelimiter: ',',",
+				"     nullValue: '') ~> parse1",
+				"parse1 parse(locationcol = location ? (City as string,",
+				"          State as string),",
+				"     format: 'json',",
+				"     documentForm: 'singleDocument') ~> parse2",
+				"parse2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['StudentSubject.csv'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          StudentId = stuId,",
+				"          StudentName = stuName,",
+				"          Subject1 = subjectsCol.Subject1,",
+				"          Subject2 = subjectsCol.Subject2,",
+				"          City = locationcol.City,",
+				"          State = locationcol.State",
+				"     ),",
+				"     partitionBy('hash', 1)) ~> sink1"
+			]
+		}
+	}
+}

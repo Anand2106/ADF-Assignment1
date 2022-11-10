@@ -1,0 +1,90 @@
+{
+	"name": "Transfomation2",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Transformation2_EmpSource",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "Transformation2_DeptSource",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Transformation2_Destination",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "assert1"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "filter1"
+				},
+				{
+					"name": "select1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          EmpId as short,",
+				"          EmpName as string,",
+				"          gender as string,",
+				"          DateOfJoin as string,",
+				"          deptId as short",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source(output(",
+				"          deptId as short,",
+				"          deptName as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source2",
+				"source1, source2 assert(expectTrue(!isNull(toDate(DateOfJoin,'dd-MM-yyyy')), false, 'DateFormat'),",
+				"     expectUnique(EmpId, false, 'UniqueId'),",
+				"     expectExists(source1@deptId == source2@deptId, false, 'CheckExist')) ~> assert1",
+				"assert1 derive({DOJ Error} = hasError('DateFormat'),",
+				"          {EmpId Error} = hasError('UniqueId'),",
+				"          {DeptIdExist Error} = hasError('CheckExist')) ~> derivedColumn1",
+				"derivedColumn1 filter(isError()==false()) ~> filter1",
+				"filter1 select(mapColumn(",
+				"          EmpId,",
+				"          EmpName,",
+				"          Gender = gender,",
+				"          DateOfJoin",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['ErrorClearedEmployee.Csv'],",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1"
+			]
+		}
+	}
+}
